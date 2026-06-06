@@ -9,10 +9,10 @@ Interfaz profesional inspirada en productos SaaS como Linear, Stripe y Notion, d
 ## 📸 Capturas de Pantalla
 
 ### Inicio de Sesión
-![Login](imagenes/login.png)
+(imagenes/login.png)
 
 ### Dashboard Principal
-![Dashboard](imagenes/dashboard.png)
+(imagenes/dashboard.png)
 
 ### Gestión de Citas
 ![Citas](imagenes/citas.png)
