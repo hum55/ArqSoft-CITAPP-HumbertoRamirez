@@ -28,6 +28,7 @@ Interfaz profesional inspirada en productos SaaS como Linear, Stripe y Notion, d
 
 ---
 
+
 ## ✨ Características
 
 - **Autenticación** con login de administrador, registro de usuarios y gestión de sesiones.
