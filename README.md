@@ -63,6 +63,7 @@ Interfaz profesional inspirada en productos SaaS como Linear, Stripe y Notion, d
 
 ---
 
+
 ## 📁 Estructura del Proyecto
 
 ```
