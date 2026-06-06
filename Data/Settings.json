@@ -1,0 +1,12 @@
+{
+  "nombreSistema": "CitasApp",
+  "nombreClinica": "Clinica Ramirez",
+  "administradorPrincipal": "Humberto Ramirez",
+  "correoContacto": "admin@citasapp.local",
+  "telefono": "999-000-0000",
+  "direccion": "Merida, Yucatan",
+  "duracionCitaMinutos": 30,
+  "horaInicio": "08:00",
+  "horaFin": "18:00",
+  "permitirRegistroAdministradores": true
+}

@@ -1,0 +1,46 @@
+﻿@model CitasApp.Models.Medico
+@{
+    ViewData["Title"] = "Nuevo Médico";
+}
+
+<div class="page-header">
+    <h2>Nuevo Médico</h2>
+    <p>Registra un nuevo médico en el sistema</p>
+</div>
+
+<div class="card" style="max-width:600px;">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="Nombre" class="form-label">Nombre completo</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ej. Dr. Carlos Mendoza" />
+                <span asp-validation-for="Nombre" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Especialidad" class="form-label">Especialidad</label>
+                <input asp-for="Especialidad" class="form-control" placeholder="Ej. Cardiología" />
+                <span asp-validation-for="Especialidad" class="form-error"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Telefono" class="form-label">Teléfono</label>
+                    <input asp-for="Telefono" class="form-control" placeholder="999-123-4567" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="doctor@email.com" />
+                    <span asp-validation-for="Email" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Registrar Médico</button>
+            </div>
+        </form>
+    </div>
+</div>

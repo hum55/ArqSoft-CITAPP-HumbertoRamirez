@@ -1,0 +1,66 @@
+[
+  {
+    "id": 2,
+    "nombre": "Roberto S\u00E1nchez",
+    "fechaNacimiento": "1978-07-22",
+    "telefono": "999-222-3344",
+    "email": "roberto.sanchez@email.com",
+    "direccion": "Av. Itz\u00E1es #120, M\u00E9rida"
+  },
+  {
+    "id": 3,
+    "nombre": "Laura Mart\u00EDnez",
+    "fechaNacimiento": "1990-11-08",
+    "telefono": "999-333-4455",
+    "email": "laura.martinez@email.com",
+    "direccion": "Calle 21 #305, Itzimn\u00E1, M\u00E9rida"
+  },
+  {
+    "id": 4,
+    "nombre": "Fernando D\u00EDaz",
+    "fechaNacimiento": "1972-01-30",
+    "telefono": "999-444-5566",
+    "email": "fernando.diaz@email.com",
+    "direccion": "Calle 50 #210, Centro, M\u00E9rida"
+  },
+  {
+    "id": 5,
+    "nombre": "Carmen Flores",
+    "fechaNacimiento": "1995-09-12",
+    "telefono": "999-555-6677",
+    "email": "carmen.flores@email.com",
+    "direccion": "Av. Col\u00F3n #88, Garc\u00EDa Giner\u00E9s, M\u00E9rida"
+  },
+  {
+    "id": 6,
+    "nombre": "Jos\u00E9 Hern\u00E1ndez",
+    "fechaNacimiento": "2018-04-05",
+    "telefono": "999-666-7788",
+    "email": "jose.papa@email.com",
+    "direccion": "Calle 35 #150, Chuburn\u00E1, M\u00E9rida"
+  },
+  {
+    "id": 7,
+    "nombre": "Ana Bel\u00E9n Torres",
+    "fechaNacimiento": "1988-12-20",
+    "telefono": "999-777-8899",
+    "email": "anabelen.torres@email.com",
+    "direccion": "Calle 15 #400, Altabrisa, M\u00E9rida"
+  },
+  {
+    "id": 8,
+    "nombre": "Miguel \u00C1ngel Reyes",
+    "fechaNacimiento": "1965-06-18",
+    "telefono": "999-888-9900",
+    "email": "miguelangel.reyes@email.com",
+    "direccion": "Av. Reforma #55, M\u00E9rida"
+  },
+  {
+    "id": 9,
+    "nombre": "Humberto Ramirez Gruintal ",
+    "fechaNacimiento": "2026-06-05",
+    "telefono": "9901459831",
+    "email": "hr4320352@gmail.com",
+    "direccion": "casa"
+  }
+]

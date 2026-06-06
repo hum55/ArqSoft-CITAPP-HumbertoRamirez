@@ -1,0 +1,151 @@
+@inject CitasApp.Data.JsonData Data
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home";
+    var settings = Data.GetSettings();
+    var adminName = Context.Session.GetString("AdminName") ?? settings.AdministradorPrincipal;
+    var adminRole = Context.Session.GetString("AdminRole") ?? "Administrador";
+    var initials = string.Join("", adminName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p => p[0])).ToUpper();
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @settings.NombreSistema</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="app-layout">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg viewBox="0 0 16 16" fill="none">
+                        <path d="M8 1v6h6M8 1C4.134 1 1 4.134 1 8s3.134 7 7 7 7-3.134 7-7"
+                              stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="sidebar-logo-text">
+                    <h1>@settings.NombreSistema</h1>
+                    <span>@settings.NombreClinica</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">Principal</div>
+
+                <a asp-controller="Home" asp-action="Index" class="nav-item @(currentController == "Home" ? "active" : "")">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="7" height="7" rx="1.5" />
+                        <rect x="11" y="2" width="7" height="7" rx="1.5" />
+                        <rect x="2" y="11" width="7" height="7" rx="1.5" />
+                        <rect x="11" y="11" width="7" height="7" rx="1.5" />
+                    </svg>
+                    Dashboard
+                </a>
+
+                <a asp-controller="Cita" asp-action="Index" class="nav-item @(currentController == "Cita" ? "active" : "")">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="16" height="15" rx="2" />
+                        <path d="M2 8h16" />
+                        <path d="M6 1v4M14 1v4" />
+                    </svg>
+                    Citas
+                </a>
+
+                <a asp-controller="Paciente" asp-action="Index" class="nav-item @(currentController == "Paciente" ? "active" : "")">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="7" cy="6" r="3" />
+                        <path d="M2 17c0-3 2.5-5 5-5s5 2 5 5" />
+                        <circle cx="14" cy="7" r="2.5" />
+                        <path d="M14 11c2.5 0 4 1.5 4 4" />
+                    </svg>
+                    Pacientes
+                </a>
+
+                <a asp-controller="Medico" asp-action="Index" class="nav-item @(currentController == "Medico" ? "active" : "")">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 2v6a5 5 0 0010 0V2" />
+                        <circle cx="15" cy="13" r="2" />
+                        <path d="M15 15v1a4 4 0 01-4 4h-1a4 4 0 01-4-4v-2" />
+                    </svg>
+                    Medicos
+                </a>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-section">Sistema</div>
+
+                <a asp-controller="Configuracion" asp-action="Index" class="nav-item @(currentController == "Configuracion" ? "active" : "")">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="10" cy="10" r="3" />
+                        <path d="M10 1v2M10 17v2M3.5 3.5l1.4 1.4M15.1 15.1l1.4 1.4M1 10h2M17 10h2M3.5 16.5l1.4-1.4M15.1 4.9l1.4-1.4" />
+                    </svg>
+                    Configuracion
+                </a>
+            </nav>
+
+            <div class="sidebar-user">
+                <div class="sidebar-avatar">@initials</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">@adminName</div>
+                    <div class="sidebar-user-role">@adminRole</div>
+                </div>
+                <form asp-controller="Auth" asp-action="Logout" method="post" class="logout-form">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn-icon btn-logout" title="Cerrar sesion">
+                        <svg width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3" />
+                            <path d="M12 12l3-3-3-3M15 9H7" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <header class="header">
+                <button class="btn-mobile-menu" type="button" aria-label="Menu">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <path d="M3 5h14M3 10h14M3 15h14" />
+                    </svg>
+                </button>
+
+                <div class="header-search">
+                    <input type="text" placeholder="Buscar pacientes, medicos, citas..." />
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <circle cx="7.5" cy="7.5" r="5.5" />
+                        <path d="M12 12l4 4" />
+                    </svg>
+                    <span class="header-kbd">Ctrl K</span>
+                </div>
+
+                <div class="header-actions">
+                    <a asp-controller="Cita" asp-action="Create" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                            <path d="M8 3v10M3 8h10" />
+                        </svg>
+                        Nueva Cita
+                    </a>
+                </div>
+            </header>
+
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="toast toast-success">@TempData["Mensaje"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="toast toast-error">@TempData["Error"]</div>
+            }
+
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

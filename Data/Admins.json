@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nombre": "Humberto Ramirez",
+    "email": "admin@citasapp.local",
+    "passwordHash": "3B612C75A7B5048A435FB6EC81E52FF92D6D795A8B5A9C17070F6A63C97A53B2",
+    "rol": "Administrador",
+    "activo": true
+  },
+  {
+    "id": 2,
+    "nombre": "Humberto Ram\u00EDrez Gruintal",
+    "email": "humberto.ramirez@tecdesoftware.edu.mx",
+    "passwordHash": "8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92",
+    "rol": "Administrador",
+    "activo": true
+  }
+]

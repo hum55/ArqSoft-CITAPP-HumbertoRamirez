@@ -1,0 +1,50 @@
+﻿@model CitasApp.Models.Paciente
+@{
+    ViewData["Title"] = "Nuevo Paciente";
+}
+
+<div class="page-header">
+    <h2>Nuevo Paciente</h2>
+    <p>Registra un nuevo paciente en el sistema</p>
+</div>
+
+<div class="card" style="max-width:600px;">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="Nombre" class="form-label">Nombre completo</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ej. María García López" />
+                <span asp-validation-for="Nombre" class="form-error"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                    <input asp-for="FechaNacimiento" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telefono" class="form-label">Teléfono</label>
+                    <input asp-for="Telefono" class="form-control" placeholder="999-111-2233" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="paciente@email.com" />
+                <span asp-validation-for="Email" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Direccion" class="form-label">Dirección</label>
+                <input asp-for="Direccion" class="form-control" placeholder="Calle, número, colonia, ciudad" />
+            </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Registrar Paciente</button>
+            </div>
+        </form>
+    </div>
+</div>

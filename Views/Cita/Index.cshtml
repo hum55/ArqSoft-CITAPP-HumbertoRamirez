@@ -1,0 +1,111 @@
+@model List<CitasApp.Models.Cita>
+@{
+    ViewData["Title"] = "Citas";
+}
+
+<div class="page-header">
+    <div class="page-header-row">
+        <div>
+            <h2>Citas</h2>
+            <p>Gestiona todas las citas medicas programadas</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M8 3v10M3 8h10" />
+            </svg>
+            Nueva Cita
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>Todas las citas</h3>
+            <p>@Model.Count registros</p>
+        </div>
+    </div>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Medico</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Motivo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="2" y="3" width="16" height="15" rx="2" />
+                                    <path d="M2 8h16" />
+                                    <path d="M6 1v4M14 1v4" />
+                                </svg>
+                                <h4>No hay citas registradas</h4>
+                                <p>Comienza agendando la primera cita medica</p>
+                                <a asp-action="Create" class="btn btn-primary">Nueva Cita</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+                @foreach (var cita in Model)
+                {
+                    var nombrePac = cita.Paciente?.Nombre ?? "-";
+                    var partes = nombrePac.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    var iniciales = partes.Length >= 2
+                        ? $"{partes[0][0]}{partes[1][0]}"
+                        : nombrePac.Length >= 2 ? nombrePac[..2] : nombrePac;
+                    var badgeClass = cita.Estado.ToLower();
+
+                    <tr>
+                        <td>
+                            <div class="table-avatar">
+                                <div class="avatar-circle">@iniciales.ToUpper()</div>
+                                <span class="table-name">@nombrePac</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-name">@(cita.Medico?.Nombre ?? "-")</div>
+                            <div class="table-sub">@(cita.Medico?.Especialidad ?? "")</div>
+                        </td>
+                        <td class="table-muted">@cita.Fecha.ToString("d MMM yyyy", new System.Globalization.CultureInfo("es-MX"))</td>
+                        <td class="table-time">@cita.Hora</td>
+                        <td class="table-muted">@(cita.Motivo ?? "-")</td>
+                        <td>
+                            <span class="badge badge-@badgeClass">
+                                <span class="badge-dot"></span>
+                                @cita.Estado
+                            </span>
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:4px;">
+                                <a asp-action="Edit" asp-route-id="@cita.Id" class="btn btn-ghost" title="Editar">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M10.5 2.5l2 2M2 11l-0.5 2.5L4 13l8.5-8.5-2-2L2 11z" />
+                                    </svg>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@cita.Id" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-ghost btn-delete-confirm" title="Eliminar" style="color:var(--error);">
+                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M2 4h11M5 4V2.5a1 1 0 011-1h3a1 1 0 011 1V4M12 4v8.5a1 1 0 01-1 1H4a1 1 0 01-1-1V4" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

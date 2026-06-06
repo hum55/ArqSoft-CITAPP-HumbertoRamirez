@@ -1,0 +1,128 @@
+@model CitasApp.Models.SystemSettings
+@{
+    ViewData["Title"] = "Configuracion";
+    var admins = ViewBag.Admins as List<CitasApp.Models.AdminUser> ?? new List<CitasApp.Models.AdminUser>();
+}
+
+<div class="page-header">
+    <div class="page-header-row">
+        <div>
+            <h2>Configuracion</h2>
+            <p>Ajustes generales del sistema y administradores con acceso.</p>
+        </div>
+    </div>
+</div>
+
+<div class="settings-grid">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3>Sistema</h3>
+                <p>Datos visibles y reglas basicas de operacion</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <form asp-action="Index" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="form-error"></div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="NombreSistema" class="form-label"></label>
+                        <input asp-for="NombreSistema" class="form-control" />
+                        <span asp-validation-for="NombreSistema" class="form-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreClinica" class="form-label"></label>
+                        <input asp-for="NombreClinica" class="form-control" />
+                        <span asp-validation-for="NombreClinica" class="form-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="AdministradorPrincipal" class="form-label"></label>
+                        <input asp-for="AdministradorPrincipal" class="form-control" />
+                        <span asp-validation-for="AdministradorPrincipal" class="form-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CorreoContacto" class="form-label"></label>
+                        <input asp-for="CorreoContacto" class="form-control" />
+                        <span asp-validation-for="CorreoContacto" class="form-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Telefono" class="form-label"></label>
+                        <input asp-for="Telefono" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Direccion" class="form-label"></label>
+                        <input asp-for="Direccion" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="HoraInicio" class="form-label"></label>
+                        <input asp-for="HoraInicio" type="time" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HoraFin" class="form-label"></label>
+                        <input asp-for="HoraFin" type="time" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="DuracionCitaMinutos" class="form-label"></label>
+                        <input asp-for="DuracionCitaMinutos" type="number" min="10" max="180" class="form-control" />
+                        <span asp-validation-for="DuracionCitaMinutos" class="form-error"></span>
+                    </div>
+                    <label class="switch-row">
+                        <input asp-for="PermitirRegistroAdministradores" />
+                        <span></span>
+                        <strong>Permitir registro de administradores</strong>
+                    </label>
+                </div>
+
+                <div class="form-actions form-actions-right">
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <aside class="card">
+        <div class="card-header">
+            <div>
+                <h3>Administradores</h3>
+                <p>@admins.Count usuarios con acceso</p>
+            </div>
+            <a asp-controller="Auth" asp-action="Register" class="btn btn-secondary">Agregar</a>
+        </div>
+        <div class="admin-list">
+            @foreach (var admin in admins)
+            {
+                var parts = admin.Nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var initials = parts.Length >= 2 ? $"{parts[0][0]}{parts[1][0]}" : admin.Nombre.Length >= 2 ? admin.Nombre[..2] : admin.Nombre;
+                <div class="admin-row">
+                    <div class="avatar-circle">@initials.ToUpper()</div>
+                    <div>
+                        <div class="table-name">@admin.Nombre</div>
+                        <div class="table-sub">@admin.Email</div>
+                    </div>
+                    <span class="badge @(admin.Activo ? "badge-confirmada" : "badge-cancelada")">
+                        <span class="badge-dot"></span>
+                        @(admin.Activo ? "Activo" : "Inactivo")
+                    </span>
+                </div>
+            }
+        </div>
+    </aside>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

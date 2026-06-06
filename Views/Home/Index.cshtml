@@ -1,0 +1,226 @@
+﻿@model CitasApp.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h2>Dashboard</h2>
+    <p>@DateTime.Today.ToString("dddd, d 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-MX")) — Resumen de actividad</p>
+</div>
+
+<!-- Stat Cards -->
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-icon">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="16" height="15" rx="2" />
+                    <path d="M2 8h16" />
+                    <path d="M6 1v4M14 1v4" />
+                </svg>
+            </div>
+            <div class="stat-change">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9V3M3 5.5L6 2.5l3 3" />
+                </svg>
+                +12%
+            </div>
+        </div>
+        <div class="stat-value">@Model.TotalCitas</div>
+        <div class="stat-label">Total de citas</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-icon">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="7" cy="6" r="3" />
+                    <path d="M2 17c0-3 2.5-5 5-5s5 2 5 5" />
+                    <circle cx="14" cy="7" r="2.5" />
+                    <path d="M14 11c2.5 0 4 1.5 4 4" />
+                </svg>
+            </div>
+            <div class="stat-change">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9V3M3 5.5L6 2.5l3 3" />
+                </svg>
+                +8%
+            </div>
+        </div>
+        <div class="stat-value">@Model.TotalPacientes</div>
+        <div class="stat-label">Pacientes registrados</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-icon">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 2v6a5 5 0 0010 0V2" />
+                    <circle cx="15" cy="13" r="2" />
+                    <path d="M15 15v1a4 4 0 01-4 4h-1a4 4 0 01-4-4v-2" />
+                </svg>
+            </div>
+            <div class="stat-change">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9V3M3 5.5L6 2.5l3 3" />
+                </svg>
+                +2
+            </div>
+        </div>
+        <div class="stat-value">@Model.MedicosActivos</div>
+        <div class="stat-label">Médicos activos</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-icon">
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+                    <circle cx="7" cy="7" r="5.5" />
+                    <path d="M7 4v3.5l2.5 1.5" />
+                </svg>
+            </div>
+        </div>
+        <div class="stat-value">@Model.CitasHoy</div>
+        <div class="stat-label">Citas hoy</div>
+    </div>
+</div>
+
+<!-- Main Grid -->
+<div class="dashboard-grid">
+
+    <!-- Appointments Table -->
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3>Próximas Citas</h3>
+                <p>@Model.ProximasCitas.Count citas programadas</p>
+            </div>
+            <a asp-controller="Cita" asp-action="Index" class="card-link">
+                Ver todas
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 3l4 4-4 4" />
+                </svg>
+            </a>
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Médico</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cita in Model.ProximasCitas)
+                    {
+                        var badgeClass = cita.Estado.ToLower();
+                        <tr>
+                            <td>
+                                <div class="table-avatar">
+                                    <div class="avatar-circle">@cita.Iniciales</div>
+                                    <span class="table-name">@cita.NombrePaciente</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table-name">@cita.NombreMedico</div>
+                                <div class="table-sub">@cita.Especialidad</div>
+                            </td>
+                            <td class="table-muted">@cita.Fecha.ToString("d MMM", new System.Globalization.CultureInfo("es-MX"))</td>
+                            <td class="table-time">@cita.Hora</td>
+                            <td>
+                                <span class="badge badge-@badgeClass">
+                                    <span class="badge-dot"></span>
+                                    @cita.Estado
+                                </span>
+                            </td>
+                            <td>
+                                <a asp-controller="Cita" asp-action="Edit" asp-route-id="@cita.Id" class="btn-ghost table-actions" title="Editar">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                        <circle cx="8" cy="3" r="1.2" />
+                                        <circle cx="8" cy="8" r="1.2" />
+                                        <circle cx="8" cy="13" r="1.2" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Right Column -->
+    <div style="display:flex; flex-direction:column; gap:20px;">
+
+        <!-- Mini Calendar -->
+        <div class="card">
+            <div class="card-body">
+                @{
+                    var hoy = DateTime.Today;
+                    var primerDia = new DateTime(hoy.Year, hoy.Month, 1);
+                    var diasEnMes = DateTime.DaysInMonth(hoy.Year, hoy.Month);
+                    var primerDiaSemana = (int)primerDia.DayOfWeek;
+                    var citaDays = Model.ProximasCitas.Select(c => c.Fecha.Day).Distinct().ToList();
+                    string[] diasSemana = { "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" };
+                    var mesNombre = hoy.ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-MX"));
+                    mesNombre = char.ToUpper(mesNombre[0]) + mesNombre.Substring(1);
+                }
+
+                <div class="mini-cal-header">
+                    <span>@mesNombre</span>
+                    <div class="mini-cal-nav">
+                        <button class="mini-cal-btn">‹</button>
+                        <button class="mini-cal-btn">›</button>
+                    </div>
+                </div>
+
+                <div class="mini-cal-grid">
+                    @foreach (var d in diasSemana)
+                    {
+                        <div class="mini-cal-day-label">@d</div>
+                    }
+                    @for (int i = 0; i < primerDiaSemana; i++)
+                    {
+                        <div class="mini-cal-day empty">.</div>
+                    }
+                    @for (int dia = 1; dia <= diasEnMes; dia++)
+                    {
+                        var esHoy = dia == hoy.Day;
+                        var tieneCita = citaDays.Contains(dia);
+                        <div class="mini-cal-day @(esHoy ? "today" : "")">
+                            @dia
+                            @if (tieneCita && !esHoy)
+                            {
+                                <span class="mini-cal-dot"></span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Actividad Reciente</h3>
+            </div>
+            <div style="padding:4px 0;">
+                @foreach (var act in Model.Actividad)
+                {
+                    <div class="activity-item">
+                        <div class="activity-dot @act.Tipo"></div>
+                        <div>
+                            <div class="activity-text">@act.Texto</div>
+                            <div class="activity-time">@act.Tiempo</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

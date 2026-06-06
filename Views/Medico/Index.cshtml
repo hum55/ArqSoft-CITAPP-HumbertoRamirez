@@ -1,0 +1,102 @@
+﻿@model List<CitasApp.Models.Medico>
+@{
+    ViewData["Title"] = "Médicos";
+}
+
+<div class="page-header">
+    <div class="page-header-row">
+        <div>
+            <h2>Médicos</h2>
+            <p>Directorio de médicos registrados en el sistema</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M8 3v10M3 8h10" />
+            </svg>
+            Nuevo Médico
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>Todos los médicos</h3>
+            <p>@Model.Count registros</p>
+        </div>
+    </div>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Especialidad</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <h4>No hay médicos registrados</h4>
+                                <p>Comienza registrando al primer médico</p>
+                                <a asp-action="Create" class="btn btn-primary">Nuevo Médico</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @foreach (var medico in Model)
+                {
+                    var partes = medico.Nombre.Replace("Dr. ", "").Replace("Dra. ", "").Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    var iniciales = partes.Length >= 2 ? $"{partes[0][0]}{partes[1][0]}" : medico.Nombre[..2];
+
+                    <tr>
+                        <td>
+                            <div class="table-avatar">
+                                <div class="avatar-circle">@iniciales.ToUpper()</div>
+                                <span class="table-name">@medico.Nombre</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge badge-completada">@medico.Especialidad</span>
+                        </td>
+                        <td class="table-muted">@(medico.Telefono ?? "—")</td>
+                        <td class="table-muted">@(medico.Email ?? "—")</td>
+                        <td>
+                            @if (medico.Activo)
+                            {
+                                <span class="badge badge-confirmada"><span class="badge-dot"></span>Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-cancelada"><span class="badge-dot"></span>Inactivo</span>
+                            }
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:4px;">
+                                <a asp-action="Edit" asp-route-id="@medico.Id" class="btn btn-ghost" title="Editar">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M10.5 2.5l2 2M2 11l-0.5 2.5L4 13l8.5-8.5-2-2L2 11z" />
+                                    </svg>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@medico.Id" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-ghost btn-delete-confirm" title="Eliminar" style="color:var(--error);">
+                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M2 4h11M5 4V2.5a1 1 0 011-1h3a1 1 0 011 1V4M12 4v8.5a1 1 0 01-1 1H4a1 1 0 01-1-1V4" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

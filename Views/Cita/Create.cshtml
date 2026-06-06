@@ -1,0 +1,56 @@
+﻿@model CitasApp.Models.Cita
+@{
+    ViewData["Title"] = "Nueva Cita";
+}
+
+<div class="page-header">
+    <h2>Nueva Cita</h2>
+    <p>Programa una nueva cita médica</p>
+</div>
+
+<div class="card" style="max-width:600px;">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="PacienteId" class="form-label">Paciente</label>
+                <select asp-for="PacienteId" asp-items="@((List<SelectListItem>)ViewBag.Pacientes)" class="form-control">
+                    <option value="">Seleccionar paciente...</option>
+                </select>
+                <span asp-validation-for="PacienteId" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MedicoId" class="form-label">Médico</label>
+                <select asp-for="MedicoId" asp-items="@((List<SelectListItem>)ViewBag.Medicos)" class="form-control">
+                    <option value="">Seleccionar médico...</option>
+                </select>
+                <span asp-validation-for="MedicoId" class="form-error"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Fecha" class="form-label">Fecha</label>
+                    <input asp-for="Fecha" type="date" class="form-control" />
+                    <span asp-validation-for="Fecha" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Hora" class="form-label">Hora</label>
+                    <input asp-for="Hora" type="time" class="form-control" />
+                    <span asp-validation-for="Hora" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Motivo" class="form-label">Motivo de la consulta</label>
+                <input asp-for="Motivo" class="form-control" placeholder="Describe brevemente el motivo..." />
+            </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Agendar Cita</button>
+            </div>
+        </form>
+    </div>
+</div>
