@@ -6,6 +6,7 @@ Interfaz profesional inspirada en productos SaaS como Linear, Stripe y Notion, d
 
 ---
 
+
 ## 📸 Capturas de Pantalla
 
 ### Inicio de Sesión
